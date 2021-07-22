@@ -14,19 +14,25 @@ struct ContentView: View {
     var columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
     
     var body: some View {
-        VStack{
-            LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
-                ForEach((0...8), id: \.self) { num in
-                    ZStack {
-                        // 角丸の四角形を描画する
-                        RoundedRectangle(cornerRadius: 10)
-                            .fill(Color.blue)
-                            .frame(height: gridLength)
+        NavigationView{
+            VStack{
+                LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
+                    ForEach((0...8), id: \.self) { num in
+                        ZStack {
+                            // 角丸の四角形を描画する
+                            RoundedRectangle(cornerRadius: 10)
+                                .frame(height: gridLength)
+                        }
                     }
                 }
+                // 15ポイントの余白を水平方向に付与
+                .padding(.horizontal, 15)
             }
+            // ナビゲーションバータイトル
+            .navigationTitle("パネルゲーム")
         }
-        .padding(.horizontal, 15)
+        // ダークモード に強制する
+        .preferredColorScheme(.dark)
     }
 }
 
