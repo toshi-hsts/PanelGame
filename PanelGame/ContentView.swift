@@ -11,7 +11,7 @@ struct ContentView: View {
     //  パネルの縦横の長さ
     let gridLength = (UIScreen.main.bounds.size.width - 60) / 3
     //  パネルの数、レイアウト設定
-    var columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
+    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
     // パネルの状態を配列で管理
     @State var panels = Array(repeating: "", count: 9)
     // 二人のプレイヤーを切り替えるためのBool値
