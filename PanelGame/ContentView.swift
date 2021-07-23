@@ -16,6 +16,10 @@ struct ContentView: View {
     @State private var panels = Array(repeating: "", count: 9)
     // 二人のプレイヤーを切り替えるためのBool値
     @State private var playerSwitcher = true
+    // アラートを表示するか管理
+    @State private var showAlert = false
+    // アラートメッセージ
+    @State private var alertMessage = ""
     
     var body: some View {
         NavigationView{
@@ -34,8 +38,11 @@ struct ContentView: View {
                                         panels[panelNumber] = playerSwitcher ? "🐶":"😸"
                                         // プレイヤーを切り替える
                                         playerSwitcher.toggle()
-                                        //　勝利条件を満たしているかチェックする
-                                        let hasWon = checkPanels(player: panels[panelNumber])
+                                        //　勝利条件を満たしていた場合の処理
+                                        if checkPanels(player: panels[panelNumber]) {
+                                            alertMessage = "プレイヤー\(panels[panelNumber])　勝利！！！"
+                                            showAlert = true
+                                        }
                                     }
                                 // パネルが埋まっているときの処理
                             } else {
@@ -58,6 +65,23 @@ struct ContentView: View {
         }
         // ダークモード に強制する
         .preferredColorScheme(.dark)
+        // アラートを表示する
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text("勝者"),
+                  message: Text(alertMessage),
+                  dismissButton: .destructive(Text("もう一度！"),
+                                              action: {
+                                                gameSet()
+                                              }
+                  )
+            )
+        })
+    }
+    
+    // gameを初期状態に戻す
+    func gameSet(){
+        panels = Array(repeating: "", count: 9)
+        playerSwitcher = true
     }
     
     // 勝利条件が確定しているのかチェックする
