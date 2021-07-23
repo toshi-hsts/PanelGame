@@ -39,8 +39,11 @@ struct ContentView: View {
                                     guard panels[panelNumber].isEmpty else {
                                         return
                                     }
-                                    // パネルのプレイヤーを格納
-                                    panels[panelNumber] = playerSwitcher ? "🐶":"😸"
+                                    // アニメーションを利用する
+                                    withAnimation(){
+                                        // パネルのプレイヤーを格納
+                                        panels[panelNumber] = playerSwitcher ? "🐶":"😸"
+                                    }
                                     // プレイヤーを切り替える
                                     playerSwitcher.toggle()
                                     // 勝敗を判定する
@@ -50,6 +53,12 @@ struct ContentView: View {
                             Text(panels[panelNumber])
                                 .font(.system(size: gridLength / 2))
                         }
+                        // パネルをめくるアニメーション設定
+                        .rotation3DEffect(
+                            Angle.degrees(panels[panelNumber].isEmpty ? 0 : 180),
+                            axis: (x:0, y:1, z:0),
+                            anchor: .center,
+                            perspective: 1)
                     }
                 }
                 // 15ポイントの余白を水平方向に付与
@@ -144,7 +153,10 @@ struct ContentView: View {
 
     // gameを初期状態に戻す
     func gameSet(){
-        panels = Array(repeating: "", count: 9)
+        // アニメーションを利用する
+        withAnimation(){
+            panels = Array(repeating: "", count: 9)
+        }
         playerSwitcher = true
     }
 }
