@@ -98,11 +98,7 @@ struct ContentView: View {
                 }
                 canWin = true
             }
-            
-            if canWin{
-                print("yoko win")
-                return true
-            }
+            if canWin{ return true }
         }
         
         // 縦方向で図柄が揃ったかチェックする
@@ -114,11 +110,7 @@ struct ContentView: View {
                 }
                 canWin = true
             }
-            
-            if canWin{
-                print("tate win")
-                return true
-            }
+            if canWin{ return true }
         }
         
         // 左上から右下に図柄が揃ったかチェックする
@@ -130,9 +122,7 @@ struct ContentView: View {
             canWin = true
         }
         
-        guard !canWin else{
-            return true
-        }
+        guard !canWin else{ return true }
         
         // 右上から左下に図柄が揃ったかチェックする
         for i in stride(from: 2, through: 6, by: 2){
@@ -143,10 +133,8 @@ struct ContentView: View {
             canWin = true
         }
         
-        guard !canWin else{
-            return true
-        }
-        
+        guard !canWin else{ return true }
+
         // 勝利条件を満たしていない場合はfalseを返す
         return false
     }
