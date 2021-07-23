@@ -38,13 +38,10 @@ struct ContentView: View {
                                         panels[panelNumber] = playerSwitcher ? "🐶":"😸"
                                         // プレイヤーを切り替える
                                         playerSwitcher.toggle()
-                                        //　勝利条件を満たしていた場合の処理
-                                        if checkPanels(player: panels[panelNumber]) {
-                                            alertMessage = "プレイヤー\(panels[panelNumber])　勝利！！！"
-                                            showAlert = true
-                                        }
+                                        // 勝敗を判定する
+                                        judgeGame(player: panels[panelNumber])
                                     }
-                                // パネルが埋まっているときの処理
+                            // パネルが埋まっているときの処理
                             } else {
                                 // パネルをオレンジにする
                                 RoundedRectangle(cornerRadius: 10)
@@ -78,14 +75,22 @@ struct ContentView: View {
         })
     }
     
-    // gameを初期状態に戻す
-    func gameSet(){
-        panels = Array(repeating: "", count: 9)
-        playerSwitcher = true
+    // 勝敗を判定する
+    func judgeGame(player: String){
+        //　勝利条件を満たしていた場合の処理
+        if hasWon(player: player) {
+            alertMessage = "プレイヤー\(player)　勝利！！！"
+            showAlert = true
+        }
+        // 引き分け時の処理
+        if  !panels.contains(""){
+            alertMessage = "引き分け！！！"
+            showAlert = true
+        }
     }
     
     // 勝利条件が確定しているのかチェックする
-    func checkPanels(player: String) -> Bool {
+    func hasWon(player: String) -> Bool {
         // 勝利判定管理用に利用する
         var canWin = false
         
@@ -137,6 +142,12 @@ struct ContentView: View {
 
         // 勝利条件を満たしていない場合はfalseを返す
         return false
+    }
+
+    // gameを初期状態に戻す
+    func gameSet(){
+        panels = Array(repeating: "", count: 9)
+        playerSwitcher = true
     }
 }
 
