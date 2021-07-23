@@ -34,6 +34,8 @@ struct ContentView: View {
                                         panels[panelNumber] = playerSwitcher ? "🐶":"😸"
                                         // プレイヤーを切り替える
                                         playerSwitcher.toggle()
+                                        //　勝利条件を満たしているかチェックする
+                                        let hasWon = checkPanels(player: panels[panelNumber])
                                     }
                                 // パネルが埋まっているときの処理
                             } else {
@@ -56,6 +58,73 @@ struct ContentView: View {
         }
         // ダークモード に強制する
         .preferredColorScheme(.dark)
+    }
+    
+    // 勝利条件が確定しているのかチェックする
+    func checkPanels(player: String) -> Bool {
+        // 勝利判定管理用に利用する
+        var canWin = false
+        
+        // 横方向で図柄が揃ったかチェックする
+        for i in stride(from: 0, through: 6, by: 3){
+            for j in stride(from: i, through: i + 2, by: 1){
+                guard player == panels[j] else{
+                    canWin = false
+                    break
+                }
+                canWin = true
+            }
+            
+            if canWin{
+                print("yoko win")
+                return true
+            }
+        }
+        
+        // 縦方向で図柄が揃ったかチェックする
+        for i in stride(from: 0, through: 2, by: 1){
+            for j in stride(from: i, through: i + 6, by: 3){
+                guard player == panels[j] else{
+                    canWin = false
+                    break
+                }
+                canWin = true
+            }
+            
+            if canWin{
+                print("tate win")
+                return true
+            }
+        }
+        
+        // 左上から右下に図柄が揃ったかチェックする
+        for i in stride(from: 0, through: 8, by: 4){
+            guard player == panels[i] else{
+                canWin = false
+                break
+            }
+            canWin = true
+        }
+        
+        guard !canWin else{
+            return true
+        }
+        
+        // 右上から左下に図柄が揃ったかチェックする
+        for i in stride(from: 2, through: 6, by: 2){
+            guard player == panels[i] else{
+                canWin = false
+                break
+            }
+            canWin = true
+        }
+        
+        guard !canWin else{
+            return true
+        }
+        
+        // 勝利条件を満たしていない場合はfalseを返す
+        return false
     }
 }
 
