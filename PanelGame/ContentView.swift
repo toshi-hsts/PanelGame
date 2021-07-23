@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     //  パネルの縦横の長さ
-    let gridLength = (UIScreen.main.bounds.size.width - 60) / 3
+    private let gridLength = (UIScreen.main.bounds.size.width - 60) / 3
     //  パネルの数、レイアウト設定
-    let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
+    private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
     // パネルの状態を配列で管理
-    @State var panels = Array(repeating: "", count: 9)
+    @State private var panels = Array(repeating: "", count: 9)
     // 二人のプレイヤーを切り替えるためのBool値
-    @State var playerSwitcher = true
+    @State private var playerSwitcher = true
     
     var body: some View {
         NavigationView{
