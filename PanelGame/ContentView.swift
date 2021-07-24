@@ -90,7 +90,7 @@ struct ContentView: View {
             showAlert = true
         }
         // 引き分け時の処理
-        else if !panels.contains(""){
+        else if panels.contains("") == false {
             alertMessage = "引き分け！！！"
             showAlert = true
         }
