@@ -9,11 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     //  パネルの縦横の長さ
-    private let gridLength = (UIScreen.main.bounds.size.width - 60) / 3
+    private let gridLength = (UIScreen.main.bounds.size.width - 75) / 4
     //  パネルの数、レイアウト設定
-    private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 3)
+    private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 4)
     // パネルの状態を配列で管理
-    @State private var panels = Array(repeating: "", count: 9)
+    @State private var panels = Array(repeating: "", count: 16)
     // 二人のプレイヤーを切り替えるためのBool値
     @State private var playerSwitcher = true
     // アラートを表示するか管理
@@ -25,7 +25,7 @@ struct ContentView: View {
         NavigationView{
             VStack{
                 LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
-                    ForEach((0...8), id: \.self) { panelNumber in
+                    ForEach((0...15), id: \.self) { panelNumber in
                         ZStack {
                             // 角丸の四角形を描画する
                             RoundedRectangle(cornerRadius: 10)
@@ -103,8 +103,8 @@ struct ContentView: View {
         
         // 横方向で図柄が揃ったかチェックする
         if canWin == false {
-            for i in stride(from: 0, through: 6, by: 3){
-                for j in stride(from: i, through: i + 2, by: 1){
+            for i in stride(from: 0, through: 12, by: 4){
+                for j in stride(from: i, through: i + 3, by: 1){
                     guard player == panels[j] else{
                         canWin = false
                         break
@@ -116,8 +116,8 @@ struct ContentView: View {
         }
         // 縦方向で図柄が揃ったかチェックする
         if canWin == false {
-            for i in stride(from: 0, through: 2, by: 1){
-                for j in stride(from: i, through: i + 6, by: 3){
+            for i in stride(from: 0, through: 3, by: 1){
+                for j in stride(from: i, through: i + 12, by: 4){
                     guard player == panels[j] else{
                         canWin = false
                         break
@@ -129,7 +129,7 @@ struct ContentView: View {
         }
         // 左上から右下に図柄が揃ったかチェックする
         if canWin == false {
-            for i in stride(from: 0, through: 8, by: 4){
+            for i in stride(from: 0, through: 15, by: 5){
                 guard player == panels[i] else{
                     canWin = false
                     break
@@ -139,7 +139,7 @@ struct ContentView: View {
         }
         // 右上から左下に図柄が揃ったかチェックする
         if canWin == false {
-            for i in stride(from: 2, through: 6, by: 2){
+            for i in stride(from: 3, through: 12, by: 3){
                 guard player == panels[i] else{
                     canWin = false
                     break
@@ -155,7 +155,7 @@ struct ContentView: View {
     func gameSet(){
         // アニメーションを利用する
         withAnimation(){
-            panels = Array(repeating: "", count: 9)
+            panels = Array(repeating: "", count: 16)
         }
         playerSwitcher = true
     }
