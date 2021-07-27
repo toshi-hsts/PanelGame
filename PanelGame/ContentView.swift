@@ -14,8 +14,8 @@ struct ContentView: View {
     private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 4)
     // パネルの状態を配列で管理
     @State private var panels = Array(repeating: "", count: 16)
-    // 二人のプレイヤーを切り替えるためのBool値
-    @State private var playerSwitcher = true
+    // おじいちゃんなのかおばあちゃんなのかを管理
+    @State private var isGrandpa = true
     // アラートを表示するか管理
     @State private var showAlert = false
     // アラートメッセージ
@@ -33,7 +33,7 @@ struct ContentView: View {
                 HStack{
                     VStack{
                         // おじいちゃんのターンが分かるよう「▼」を付与
-                        Text(fixedFirstPlayer && playerSwitcher ? "▼" : "　")
+                        Text(fixedFirstPlayer && isGrandpa ? "▼" : "　")
                             .font(.title)
                         // おじいちゃんボタン
                         Button(action: {
@@ -41,6 +41,7 @@ struct ContentView: View {
                                 return
                             }
                             firstPlayerMessage = "先手：おじいちゃん"
+                            isGrandpa = true
                         }) {
                             Image("ojiichan")
                                 .resizable()
@@ -56,7 +57,7 @@ struct ContentView: View {
                     
                     VStack{
                         // おばあちゃんのターンが分かるよう「▼」を付与
-                        Text(fixedFirstPlayer && (playerSwitcher == false) ? "▼" : " ")
+                        Text(fixedFirstPlayer && (isGrandpa == false) ? "▼" : " ")
                             .font(.title)
                         // おばあちゃんボタン
                         Button(action: {
@@ -64,7 +65,7 @@ struct ContentView: View {
                                 return
                             }
                             firstPlayerMessage = "先手：おばあちゃん"
-                            playerSwitcher.toggle()
+                            isGrandpa = false
                         }) {
                             Image("obaachan")
                                 .resizable()
@@ -94,13 +95,13 @@ struct ContentView: View {
                                     }
                                     // 最初にパネルがタップされたときに先手を確定させる
                                     if fixedFirstPlayer == false {
-                                        firstPlayerMessage = playerSwitcher ? "先手：おじいちゃん" : "先手：おばあちゃん"
+                                        firstPlayerMessage = isGrandpa ? "先手：おじいちゃん" : "先手：おばあちゃん"
                                         fixedFirstPlayer = true
                                     }
                                     // アニメーションを利用する
                                     withAnimation(){
                                         // パネルのプレイヤーを格納
-                                        panels[panelNumber] = playerSwitcher ? "ojiichan":"obaachan"
+                                        panels[panelNumber] = isGrandpa ? "ojiichan":"obaachan"
                                     }
                                     // 勝敗を判定する
                                     judgeGame(player: panels[panelNumber])
@@ -148,7 +149,7 @@ struct ContentView: View {
     func judgeGame(player: String){
         //　勝利条件を満たしていた場合の処理
         if hasWon(player: player) {
-            alertMessage = "\(playerSwitcher ? "おじいちゃん" : "おばあちゃん")　勝利！！！"
+            alertMessage = "\(isGrandpa ? "おじいちゃん" : "おばあちゃん")　勝利！！！"
             showAlert = true
         }
         // 引き分け時の処理
@@ -158,9 +159,9 @@ struct ContentView: View {
         // 引き分けでも勝利でもない場合の処理
         } else{
             // プレイヤーを切り替える
-            playerSwitcher.toggle()
+            isGrandpa.toggle()
             // メッセージをセット
-            turnMessage = playerSwitcher ? "おじいちゃんのターン！" : "おばあちゃんのターン！"
+            turnMessage = isGrandpa ? "おじいちゃんのターン！" : "おばあちゃんのターン！"
         }
     }
     
@@ -225,7 +226,7 @@ struct ContentView: View {
         withAnimation(){
             panels = Array(repeating: "", count: 16)
         }
-        playerSwitcher = true
+        isGrandpa = true
         firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
         fixedFirstPlayer = false
         turnMessage = ""
