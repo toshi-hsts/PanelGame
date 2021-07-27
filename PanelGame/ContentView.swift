@@ -24,41 +24,54 @@ struct ContentView: View {
     @State private var firstPlayerMessage = "先手プレイヤーをタップだ！"
     // 先手プレイヤーが確定したかを管理
     @State private var fixedFirstPlayer = false
+    // どちらのターンかを知らせるメッセージ
+    @State private var turnMessage = ""
     
     var body: some View {
         NavigationView{
             VStack{
                 HStack{
-                    // おじいちゃんボタン
-                    Button(action: {
-                        guard fixedFirstPlayer == false else {
-                            return
+                    VStack{
+                        // おじいちゃんのターンが分かるよう「▼」を付与
+                        Text(fixedFirstPlayer && playerSwitcher ? "▼" : "　")
+                            .font(.title)
+                        // おじいちゃんボタン
+                        Button(action: {
+                            guard fixedFirstPlayer == false else {
+                                return
+                            }
+                            firstPlayerMessage = "先手：おじいちゃん"
+                        }) {
+                            Image("ojiichan")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: gridLength * 1.5, height: gridLength * 1.5)
+                                .padding(.horizontal, 10)
                         }
-                        firstPlayerMessage = "先手：おじいちゃん"
-                    }) {
-                        Image("ojiichan")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: gridLength * 1.5, height: gridLength * 1.5)
-                            .padding(.horizontal, 10)
                     }
                     // VSテキストを表示
                     Text("VS")
                         .font(.largeTitle)
                         .padding(.horizontal,10)
-                    // おばあちゃんボタン
-                    Button(action: {
-                        guard fixedFirstPlayer == false else {
-                            return
+                    
+                    VStack{
+                        // おばあちゃんのターンが分かるよう「▼」を付与
+                        Text(fixedFirstPlayer && (playerSwitcher == false) ? "▼" : " ")
+                            .font(.title)
+                        // おばあちゃんボタン
+                        Button(action: {
+                            guard fixedFirstPlayer == false else {
+                                return
+                            }
+                            firstPlayerMessage = "先手：おばあちゃん"
+                            playerSwitcher.toggle()
+                        }) {
+                            Image("obaachan")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: gridLength * 1.5, height: gridLength * 1.5)
+                                .padding(.horizontal, 10)
                         }
-                        firstPlayerMessage = "先手：おばあちゃん"
-                        playerSwitcher.toggle()
-                    }) {
-                        Image("obaachan")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: gridLength * 1.5, height: gridLength * 1.5)
-                            .padding(.horizontal, 10)
                     }
                 }
                 // 先手をテキストで表示する
@@ -91,8 +104,6 @@ struct ContentView: View {
                                     }
                                     // 勝敗を判定する
                                     judgeGame(player: panels[panelNumber])
-                                    // プレイヤーを切り替える
-                                    playerSwitcher.toggle()
                                 }
                             // プレイヤーをパネルの上に表示する
                             Image(panels[panelNumber])
@@ -110,6 +121,10 @@ struct ContentView: View {
                 }
                 // 15ポイントの余白を水平方向に付与
                 .padding(.horizontal, 15)
+                // どちらのターンかを知らせるメッセージ
+                Text(turnMessage)
+                    .padding()
+                    .font(.title)
             }
             // ナビゲーションバータイトル
             .navigationTitle("パネルゲーム")
@@ -140,6 +155,12 @@ struct ContentView: View {
         else if panels.contains("") == false {
             alertMessage = "引き分け！！！"
             showAlert = true
+        // 引き分けでも勝利でもない場合の処理
+        } else{
+            // プレイヤーを切り替える
+            playerSwitcher.toggle()
+            // メッセージをセット
+            turnMessage = playerSwitcher ? "おじいちゃんのターン！" : "おばあちゃんのターン！"
         }
     }
     
@@ -207,6 +228,7 @@ struct ContentView: View {
         playerSwitcher = true
         firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
         fixedFirstPlayer = false
+        turnMessage = ""
     }
 }
 
