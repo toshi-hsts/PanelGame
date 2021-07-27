@@ -30,7 +30,7 @@ struct ContentView: View {
                             // 角丸の四角形を描画する
                             RoundedRectangle(cornerRadius: 10)
                                 // パネルの色
-                                .fill(panels[panelNumber].isEmpty ? Color.white: Color.orange)
+                                .changePanelColor(panels[panelNumber])
                                 // gridの高さ
                                 .frame(height: gridLength)
                                 // tapしたときの挙動
@@ -158,6 +158,17 @@ struct ContentView: View {
             panels = Array(repeating: "", count: 16)
         }
         playerSwitcher = true
+    }
+}
+
+//　RoundedRectangleのモディファイア拡張
+extension RoundedRectangle {
+    // 背景色をpanelよって変更する
+    func changePanelColor(_ panelContent: String) -> some View {
+        var fillColor = self.fill(Color.white)
+        if panelContent == "🐶"{ fillColor =  self.fill(Color.blue) }
+        if panelContent == "😸"{ fillColor = self.fill(Color.orange) }
+        return fillColor
     }
 }
 
