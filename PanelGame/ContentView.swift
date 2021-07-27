@@ -87,7 +87,7 @@ struct ContentView: View {
                                     // アニメーションを利用する
                                     withAnimation(){
                                         // パネルのプレイヤーを格納
-                                        panels[panelNumber] = playerSwitcher ? "🐶":"😸"
+                                        panels[panelNumber] = playerSwitcher ? "ojiichan":"obaachan"
                                     }
                                     // 勝敗を判定する
                                     judgeGame(player: panels[panelNumber])
@@ -95,8 +95,10 @@ struct ContentView: View {
                                     playerSwitcher.toggle()
                                 }
                             // プレイヤーをパネルの上に表示する
-                            Text(panels[panelNumber])
-                                .font(.system(size: gridLength / 2))
+                            Image(panels[panelNumber])
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: gridLength * 0.7, height: gridLength * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                         }
                         // パネルをめくるアニメーション設定
                         .rotation3DEffect(
@@ -213,8 +215,8 @@ extension RoundedRectangle {
     // 背景色をpanelよって変更する
     func changePanelColor(_ panelContent: String) -> some View {
         var fillColor = self.fill(Color.white)
-        if panelContent == "🐶"{ fillColor =  self.fill(Color.blue) }
-        if panelContent == "😸"{ fillColor = self.fill(Color.orange) }
+        if panelContent == "ojiichan"{ fillColor =  self.fill(Color.blue) }
+        if panelContent == "obaachan"{ fillColor = self.fill(Color.orange) }
         return fillColor
     }
 }
