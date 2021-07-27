@@ -127,7 +127,7 @@ struct ContentView: View {
                     .font(.title)
             }
             // ナビゲーションバータイトル
-            .navigationTitle("パネルゲーム")
+            .navigationTitle("四目並べ")
         }
         // ダークモード に強制する
         .preferredColorScheme(.dark)
