@@ -20,10 +20,50 @@ struct ContentView: View {
     @State private var showAlert = false
     // アラートメッセージ
     @State private var alertMessage = ""
+    // 先手プレイヤーを表示するメッセージ
+    @State private var firstPlayerMessage = "先手プレイヤーをタップだ！"
+    // 先手プレイヤーが確定したかを管理
+    @State private var fixedFirstPlayer = false
     
     var body: some View {
         NavigationView{
             VStack{
+                HStack{
+                    // おじいちゃんボタン
+                    Button(action: {
+                        guard fixedFirstPlayer == false else {
+                            return
+                        }
+                        firstPlayerMessage = "先手：おじいちゃん"
+                    }) {
+                        Image("ojiichan")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: gridLength * 1.5, height: gridLength * 1.5)
+                            .padding(.horizontal, 10)
+                    }
+                    // VSテキストを表示
+                    Text("VS")
+                        .font(.largeTitle)
+                        .padding(.horizontal,10)
+                    // おばあちゃんボタン
+                    Button(action: {
+                        guard fixedFirstPlayer == false else {
+                            return
+                        }
+                        firstPlayerMessage = "先手：おばあちゃん"
+                        playerSwitcher.toggle()
+                    }) {
+                        Image("obaachan")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: gridLength * 1.5, height: gridLength * 1.5)
+                            .padding(.horizontal, 10)
+                    }
+                }
+                // 先手をテキストで表示する
+                Text(firstPlayerMessage)
+                
                 LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
                     ForEach((0...15), id: \.self) { panelNumber in
                         ZStack {
@@ -39,15 +79,20 @@ struct ContentView: View {
                                     guard panels[panelNumber].isEmpty else {
                                         return
                                     }
+                                    // 最初にパネルがタップされたときに先手を確定させる
+                                    if fixedFirstPlayer == false {
+                                        firstPlayerMessage = playerSwitcher ? "先手：おじいちゃん" : "先手：おばあちゃん"
+                                        fixedFirstPlayer = true
+                                    }
                                     // アニメーションを利用する
                                     withAnimation(){
                                         // パネルのプレイヤーを格納
                                         panels[panelNumber] = playerSwitcher ? "🐶":"😸"
                                     }
-                                    // プレイヤーを切り替える
-                                    playerSwitcher.toggle()
                                     // 勝敗を判定する
                                     judgeGame(player: panels[panelNumber])
+                                    // プレイヤーを切り替える
+                                    playerSwitcher.toggle()
                                 }
                             // プレイヤーをパネルの上に表示する
                             Text(panels[panelNumber])
@@ -86,7 +131,7 @@ struct ContentView: View {
     func judgeGame(player: String){
         //　勝利条件を満たしていた場合の処理
         if hasWon(player: player) {
-            alertMessage = "プレイヤー\(player)　勝利！！！"
+            alertMessage = "\(playerSwitcher ? "おじいちゃん" : "おばあちゃん")　勝利！！！"
             showAlert = true
         }
         // 引き分け時の処理
@@ -158,6 +203,8 @@ struct ContentView: View {
             panels = Array(repeating: "", count: 16)
         }
         playerSwitcher = true
+        firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
+        fixedFirstPlayer = false
     }
 }
 
