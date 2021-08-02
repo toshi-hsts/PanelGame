@@ -87,30 +87,30 @@ struct ContentView: View {
                                 .changePanelColor(panels[panelNumber])
                                 // gridの高さ
                                 .frame(height: gridLength)
-                                // tapしたときの挙動
-                                .onTapGesture {
-                                    // 選択済みのパネルの場合は、何もしない
-                                    guard panels[panelNumber].isEmpty else {
-                                        return
-                                    }
-                                    // 最初にパネルがタップされたときに先手を確定させる
-                                    if fixedFirstPlayer == false {
-                                        firstPlayerMessage = isGrandpa ? "先手：おじいちゃん" : "先手：おばあちゃん"
-                                        fixedFirstPlayer = true
-                                    }
-                                    // アニメーションを利用する
-                                    withAnimation(){
-                                        // パネルのプレイヤーを格納
-                                        panels[panelNumber] = isGrandpa ? "ojiichan":"obaachan"
-                                    }
-                                    // 勝敗を判定する
-                                    judgeGame(player: panels[panelNumber])
-                                }
                             // プレイヤーをパネルの上に表示する
                             Image(panels[panelNumber])
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: gridLength * 0.7, height: gridLength * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                        }
+                        // tapしたときの挙動
+                        .onTapGesture {
+                            // 選択済みのパネルの場合は、何もしない
+                            guard panels[panelNumber].isEmpty else {
+                                return
+                            }
+                            // 最初にパネルがタップされたときに先手を確定させる
+                            if fixedFirstPlayer == false {
+                                firstPlayerMessage = isGrandpa ? "先手：おじいちゃん" : "先手：おばあちゃん"
+                                fixedFirstPlayer = true
+                            }
+                            // アニメーションを利用する
+                            withAnimation(){
+                                // パネルのプレイヤーを格納
+                                panels[panelNumber] = isGrandpa ? "ojiichan":"obaachan"
+                            }
+                            // 勝敗を判定する
+                            judgeGame(player: panels[panelNumber])
                         }
                         // パネルをめくるアニメーション設定
                         .rotation3DEffect(
