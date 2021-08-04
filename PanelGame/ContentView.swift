@@ -87,11 +87,13 @@ struct ContentView: View {
                                 .changePanelColor(panels[panelNumber])
                                 // gridの高さ
                                 .frame(height: gridLength)
-                            // プレイヤーをパネルの上に表示する
-                            Image(panels[panelNumber])
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: gridLength * 0.7, height: gridLength * 0.7, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            // パネルに割り当てられたプレイヤーがいる場合、パネルの上に画像を表示する
+                            if panels[panelNumber].isEmpty == false {
+                                Image(panels[panelNumber])
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: gridLength * 0.7, height: gridLength * 0.7, alignment: .center)
+                            }
                         }
                         // tapしたときの挙動
                         .onTapGesture {
