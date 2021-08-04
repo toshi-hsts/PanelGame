@@ -19,7 +19,8 @@
 ## 必要ソフトとデバイス
 - mac
 - Xcode
-- iPhone simulater or iPhone実機
+- iPhone simulater or iPhone実機<br>
+SwiftUIで開発されているためiOS13以降が必要です
 
 ## 実行手順
 ### 1, プロジェクトを立ち上げる
@@ -33,7 +34,9 @@ open PanelGame.xcodeproj
 
 ## 開発環境
 Xcode 12.5.1<br>
-macOS Big Sur 11.2.3
+macOS Big Sur 11.2.3<br>
+iPhone simulater iOS14.5<br>
+iPhone実機 iOS14.5
 
 # 作成者
 https://twitter.com/Toshi_tab0401
