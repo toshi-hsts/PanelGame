@@ -4,6 +4,9 @@
 2人対戦型です。
 案外面白い！
 
+本アプリは、[iPhoneアプリ開発集中オンライン講座「CodeCandy」](https://code-candy.com/p/ios)の講座内で出題されている課題に機能追加したアプリです。
+ソースコードを見る前に、[こちら](https://code-candy.com/courses/ios/lectures/33267857)のご確認をお願いします。
+
 # 実行画面
 ![panelGameDemo](https://user-images.githubusercontent.com/80573353/127998407-e46a45e3-5b2a-4cdd-ac18-c9415aaaa148.GIF)
 
