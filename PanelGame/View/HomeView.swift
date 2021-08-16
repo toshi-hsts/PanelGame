@@ -72,12 +72,12 @@ struct HomeView: View {
                             // 角丸の四角形を描画する
                             RoundedRectangle(cornerRadius: 10)
                                 // パネルの色
-                                .changePanelColor(homeViewModel.panels[panelNumber])
+                                .changePanelColor(homeViewModel.panels[panelNumber].toString())
                                 // gridの高さ
                                 .frame(height: gridLength)
                             // パネルに割り当てられたプレイヤーがいる場合、パネルの上に画像を表示する
-                            if homeViewModel.panels[panelNumber].isEmpty == false {
-                                Image(homeViewModel.panels[panelNumber])
+                            if homeViewModel.panels[panelNumber] != .none {
+                                Image(homeViewModel.panels[panelNumber].toString())
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: gridLength * 0.7, height: gridLength * 0.7, alignment: .center)
@@ -86,7 +86,7 @@ struct HomeView: View {
                         // tapしたときの挙動
                         .onTapGesture {
                             // 選択済みのパネルの場合は、何もしない
-                            guard homeViewModel.panels[panelNumber].isEmpty else {
+                            guard homeViewModel.panels[panelNumber] == .none else {
                                 return
                             }
                             // 最初にパネルがタップされたときに先手を確定させる
@@ -97,14 +97,14 @@ struct HomeView: View {
                             // アニメーションを利用する
                             withAnimation(){
                                 // パネルのプレイヤーを格納
-                                homeViewModel.panels[panelNumber] = homeViewModel.isGrandpa ? "ojiichan":"obaachan"
+                                homeViewModel.panels[panelNumber] = homeViewModel.isGrandpa ? PanelState.grandPa : PanelState.grandMa
                             }
                             // 勝敗を判定する
-                            homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber])
+                            homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber].toString())
                         }
                         // パネルをめくるアニメーション設定
                         .rotation3DEffect(
-                            Angle.degrees(homeViewModel.panels[panelNumber].isEmpty ? 0 : 180),
+                            Angle.degrees(homeViewModel.panels[panelNumber] == .none ? 0 : 180),
                             axis: (x:0, y:1, z:0),
                             anchor: .center,
                             perspective: 1)

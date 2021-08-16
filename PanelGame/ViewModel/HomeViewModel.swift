@@ -9,7 +9,7 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     // パネルの状態を配列で管理
-    @Published var panels = Array(repeating: "", count: 16)
+    @Published var panels: [PanelState] = Array(repeating: PanelState.none, count: 16)
     // おじいちゃんなのかおばあちゃんなのかを管理
     @Published var isGrandpa = true
     // アラートを表示するか管理
@@ -31,7 +31,7 @@ class HomeViewModel: ObservableObject {
             showAlert = true
         }
         // 引き分け時の処理
-        else if panels.contains("") == false {
+        else if panels.contains(PanelState.none) == false {
             alertMessage = "引き分け！！！"
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
@@ -52,7 +52,7 @@ class HomeViewModel: ObservableObject {
         if canWin == false {
             for i in stride(from: 0, through: 12, by: 4){
                 for j in stride(from: i, through: i + 3, by: 1){
-                    guard player == panels[j] else{
+                    guard player == panels[j].toString() else{
                         canWin = false
                         break
                     }
@@ -65,7 +65,7 @@ class HomeViewModel: ObservableObject {
         if canWin == false {
             for i in stride(from: 0, through: 3, by: 1){
                 for j in stride(from: i, through: i + 12, by: 4){
-                    guard player == panels[j] else{
+                    guard player == panels[j].toString() else{
                         canWin = false
                         break
                     }
@@ -77,7 +77,7 @@ class HomeViewModel: ObservableObject {
         // 左上から右下に図柄が揃ったかチェックする
         if canWin == false {
             for i in stride(from: 0, through: 15, by: 5){
-                guard player == panels[i] else{
+                guard player == panels[i].toString() else{
                     canWin = false
                     break
                 }
@@ -87,7 +87,7 @@ class HomeViewModel: ObservableObject {
         // 右上から左下に図柄が揃ったかチェックする
         if canWin == false {
             for i in stride(from: 3, through: 12, by: 3){
-                guard player == panels[i] else{
+                guard player == panels[i].toString() else{
                     canWin = false
                     break
                 }
@@ -100,7 +100,7 @@ class HomeViewModel: ObservableObject {
     
     // gameを初期状態に戻す
     func gameSet(){
-        panels = Array(repeating: "", count: 16)
+        panels = Array(repeating: PanelState.none, count: 16)
         isGrandpa = true
         firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
         fixedFirstPlayer = false
