@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum PanelState {
+enum PanelStateModel {
     case grandPa
     case grandMa
     case none

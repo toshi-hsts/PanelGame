@@ -9,7 +9,7 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     // パネルの状態を配列で管理
-    @Published var panels: [PanelState] = Array(repeating: PanelState.none, count: 16)
+    @Published var panels: [PanelStateModel] = Array(repeating: PanelStateModel.none, count: 16)
     // おじいちゃんなのかおばあちゃんなのかを管理
     @Published var isGrandpa = true
     // アラートを表示するか管理
@@ -31,7 +31,7 @@ class HomeViewModel: ObservableObject {
             showAlert = true
         }
         // 引き分け時の処理
-        else if panels.contains(PanelState.none) == false {
+        else if panels.contains(PanelStateModel.none) == false {
             alertMessage = "引き分け！！！"
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
@@ -100,7 +100,7 @@ class HomeViewModel: ObservableObject {
     
     // gameを初期状態に戻す
     func gameSet(){
-        panels = Array(repeating: PanelState.none, count: 16)
+        panels = Array(repeating: PanelStateModel.none, count: 16)
         isGrandpa = true
         firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
         fixedFirstPlayer = false

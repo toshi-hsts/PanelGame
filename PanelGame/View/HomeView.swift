@@ -97,7 +97,7 @@ struct HomeView: View {
                             // アニメーションを利用する
                             withAnimation(){
                                 // パネルのプレイヤーを格納
-                                homeViewModel.panels[panelNumber] = homeViewModel.isGrandpa ? PanelState.grandPa : PanelState.grandMa
+                                homeViewModel.panels[panelNumber] = homeViewModel.isGrandpa ? PanelStateModel.grandPa : PanelStateModel.grandMa
                             }
                             // 勝敗を判定する
                             homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber].toString())
