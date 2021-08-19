@@ -11,6 +11,7 @@
 		7F03D83B26A7EE640091C960 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F03D83A26A7EE640091C960 /* HomeView.swift */; };
 		7F03D83D26A7EE670091C960 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F03D83C26A7EE670091C960 /* Assets.xcassets */; };
 		7F03D84026A7EE670091C960 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F03D83F26A7EE670091C960 /* Preview Assets.xcassets */; };
+		CA449D6626CE218C009E4A5A /* AlertMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA449D6526CE218C009E4A5A /* AlertMessageModel.swift */; };
 		CAAE0C4926C9657E00AD93A9 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAE0C4826C9657E00AD93A9 /* HomeViewModel.swift */; };
 		CAAE0C4B26CA815400AD93A9 /* PanelStateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAAE0C4A26CA815400AD93A9 /* PanelStateModel.swift */; };
 /* End PBXBuildFile section */
@@ -22,6 +23,7 @@
 		7F03D83C26A7EE670091C960 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F03D83F26A7EE670091C960 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7F03D84126A7EE680091C960 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA449D6526CE218C009E4A5A /* AlertMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessageModel.swift; sourceTree = "<group>"; };
 		CAAE0C4826C9657E00AD93A9 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CAAE0C4A26CA815400AD93A9 /* PanelStateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelStateModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -95,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				CAAE0C4A26CA815400AD93A9 /* PanelStateModel.swift */,
+				CA449D6526CE218C009E4A5A /* AlertMessageModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA449D6626CE218C009E4A5A /* AlertMessageModel.swift in Sources */,
 				7F03D83B26A7EE640091C960 /* HomeView.swift in Sources */,
 				CAAE0C4926C9657E00AD93A9 /* HomeViewModel.swift in Sources */,
 				CAAE0C4B26CA815400AD93A9 /* PanelStateModel.swift in Sources */,

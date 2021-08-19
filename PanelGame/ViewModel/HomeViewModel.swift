@@ -15,7 +15,7 @@ class HomeViewModel: ObservableObject {
     // アラートを表示するか管理
     @Published var showAlert = false
     // アラートメッセージ
-    @Published var alertMessage = ""
+    @Published var alertMessage = AlertMessageModel.none.message
     // 先手プレイヤーを表示するメッセージ
     @Published var firstPlayerMessage = "先手プレイヤーをタップだ！"
     // 先手プレイヤーが確定したかを管理
@@ -27,12 +27,12 @@ class HomeViewModel: ObservableObject {
     func judgeGame(player: String){
         //　勝利条件を満たしていた場合の処理
         if hasWon(player: player) {
-            alertMessage = "\(isGrandpa ? "おじいちゃん" : "おばあちゃん")　勝利！！！"
+            alertMessage = isGrandpa ? AlertMessageModel.winGrandPa.message : AlertMessageModel.winGrandMa.message
             showAlert = true
         }
         // 引き分け時の処理
         else if panels.contains(PanelStateModel.none) == false {
-            alertMessage = "引き分け！！！"
+            alertMessage = AlertMessageModel.draw.message
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
         } else{
