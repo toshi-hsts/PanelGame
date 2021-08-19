@@ -17,7 +17,7 @@ class HomeViewModel: ObservableObject {
     // アラートメッセージ
     @Published var alertMessage = AlertMessageModel.none.message
     // 先手プレイヤーを表示するメッセージ
-    @Published var firstPlayerMessage = "先手プレイヤーをタップだ！"
+    @Published var firstPlayerMessage = FirstPlayerMessageModel.none.message
     // 先手プレイヤーが確定したかを管理
     @Published var fixedFirstPlayer = false
     // どちらのターンかを知らせるメッセージ
@@ -102,7 +102,7 @@ class HomeViewModel: ObservableObject {
     func gameSet(){
         panels = Array(repeating: PanelStateModel.none, count: 16)
         isGrandpa = true
-        firstPlayerMessage = "先手にしたいプレイヤーをタップだ！"
+        firstPlayerMessage = FirstPlayerMessageModel.none.message
         fixedFirstPlayer = false
         turnMessage = ""
     }

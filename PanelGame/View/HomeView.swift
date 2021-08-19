@@ -28,7 +28,7 @@ struct HomeView: View {
                             guard homeViewModel.fixedFirstPlayer == false else {
                                 return
                             }
-                            homeViewModel.firstPlayerMessage = "先手：おじいちゃん"
+                            homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandPa.message
                             homeViewModel.isGrandpa = true
                         }) {
                             Image("ojiichan")
@@ -52,7 +52,7 @@ struct HomeView: View {
                             guard homeViewModel.fixedFirstPlayer == false else {
                                 return
                             }
-                            homeViewModel.firstPlayerMessage = "先手：おばあちゃん"
+                            homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandMa.message
                             homeViewModel.isGrandpa = false
                         }) {
                             Image("obaachan")
@@ -91,7 +91,7 @@ struct HomeView: View {
                             }
                             // 最初にパネルがタップされたときに先手を確定させる
                             if homeViewModel.fixedFirstPlayer == false {
-                                homeViewModel.firstPlayerMessage = homeViewModel.isGrandpa ? "先手：おじいちゃん" : "先手：おばあちゃん"
+                                homeViewModel.firstPlayerMessage = homeViewModel.isGrandpa ? FirstPlayerMessageModel.grandPa.message : FirstPlayerMessageModel.grandMa.message
                                 homeViewModel.fixedFirstPlayer = true
                             }
                             // アニメーションを利用する
