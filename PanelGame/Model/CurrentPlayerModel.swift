@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CurrentTurnUserModel {
+enum CurrentPlayerModel {
     case grandPa
     case grandMa
     case none
@@ -20,7 +20,7 @@ enum CurrentTurnUserModel {
         case .grandMa:
             return "おばあちゃんのターン！"
         default:
-            return ""
+            return " "
         }
     }
     

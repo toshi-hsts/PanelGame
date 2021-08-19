@@ -11,13 +11,13 @@ class HomeViewModel: ObservableObject {
     // パネルの状態を配列で管理
     @Published var panels: [PanelStateModel] = Array(repeating: PanelStateModel.none, count: 16)
     // 現在の差し手を管理
-    @Published var currentUser = CurrentTurnUserModel.none
+    @Published var currentPlayer = CurrentPlayerModel.none
+    // 先手プレイヤー管理
+    @Published var firstPlayer = FirstPlayerModel.none
     // アラートを表示するか管理
     @Published var showAlert = false
-    // 先手プレイヤーを表示するメッセージ
-    @Published var firstPlayerMessage = FirstPlayerMessageModel.none.message
-    // 先手プレイヤーが確定したかを管理
-    @Published var fixedFirstPlayer = false
+    // ゲーム中かを管理
+    @Published var isStartingGame = false
     
     // 勝敗を判定する
     func judgeGame(player: String){
@@ -27,12 +27,12 @@ class HomeViewModel: ObservableObject {
         }
         // 引き分け時の処理
         else if panels.contains(PanelStateModel.none) == false {
-            currentUser = .none
+            currentPlayer = .none
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
         } else{
             // プレイヤーを切り替える
-            currentUser.togglePlayer()
+            currentPlayer.togglePlayer()
         }
     }
     
@@ -94,8 +94,8 @@ class HomeViewModel: ObservableObject {
     // gameを初期状態に戻す
     func gameSet(){
         panels = Array(repeating: PanelStateModel.none, count: 16)
-        firstPlayerMessage = FirstPlayerMessageModel.none.message
-        fixedFirstPlayer = false
-        currentUser = .none
+        firstPlayer = .none
+        currentPlayer = .none
+        isStartingGame = false
     }
 }

@@ -21,15 +21,14 @@ struct HomeView: View {
                 HStack{
                     VStack{
                         // おじいちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.fixedFirstPlayer && homeViewModel.currentUser == .grandPa ? "▼" : "　")
+                        Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == .grandPa ? "▼" : "　")
                             .font(.title)
                         // おじいちゃんボタン
                         Button(action: {
-                            guard homeViewModel.fixedFirstPlayer == false else {
+                            guard homeViewModel.isStartingGame == false else {
                                 return
                             }
-                            homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandPa.message
-                            homeViewModel.currentUser = .grandPa
+                            homeViewModel.firstPlayer = .grandPa
                         }) {
                             Image("ojiichan")
                                 .resizable()
@@ -45,15 +44,14 @@ struct HomeView: View {
                     
                     VStack{
                         // おばあちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.fixedFirstPlayer && homeViewModel.currentUser == .grandMa ? "▼" : " ")
+                        Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == .grandMa ? "▼" : " ")
                             .font(.title)
                         // おばあちゃんボタン
                         Button(action: {
-                            guard homeViewModel.fixedFirstPlayer == false else {
+                            guard homeViewModel.isStartingGame == false else {
                                 return
                             }
-                            homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandMa.message
-                            homeViewModel.currentUser = .grandMa
+                            homeViewModel.firstPlayer = .grandMa
                         }) {
                             Image("obaachan")
                                 .resizable()
@@ -64,7 +62,7 @@ struct HomeView: View {
                     }
                 }
                 // 先手をテキストで表示する
-                Text(homeViewModel.firstPlayerMessage)
+                Text(homeViewModel.firstPlayer.message)
                 
                 LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
                     ForEach((0...15), id: \.self) { panelNumber in
@@ -89,16 +87,20 @@ struct HomeView: View {
                             guard homeViewModel.panels[panelNumber] == .none else {
                                 return
                             }
-                            // 最初にパネルがタップされたときに先手を確定させる
-                            if homeViewModel.fixedFirstPlayer == false {
-                                homeViewModel.currentUser = .grandPa
-                                homeViewModel.firstPlayerMessage = homeViewModel.currentUser == .grandPa ? FirstPlayerMessageModel.grandPa.message : FirstPlayerMessageModel.grandMa.message
-                                homeViewModel.fixedFirstPlayer = true
+                            // 最初にパネルがタップされたときにゲームを開始する
+                            if homeViewModel.isStartingGame == false {
+                                homeViewModel.currentPlayer = homeViewModel.firstPlayer == .grandMa ? .grandMa : .grandPa
+                                // 先手を選ばずにゲームを開始した場合は、おじいちゃんが先手になる
+                                if homeViewModel.firstPlayer == .none {
+                                    homeViewModel.firstPlayer = .grandPa
+                                }
+                                // ゲームを開始中にする
+                                homeViewModel.isStartingGame = true
                             }
                             // アニメーションを利用する
                             withAnimation(){
                                 // パネルのプレイヤーを格納
-                                homeViewModel.panels[panelNumber] = homeViewModel.currentUser == .grandPa ? PanelStateModel.grandPa : PanelStateModel.grandMa
+                                homeViewModel.panels[panelNumber] = homeViewModel.currentPlayer == .grandPa ? PanelStateModel.grandPa : PanelStateModel.grandMa
                             }
                             // 勝敗を判定する
                             homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber].toString())
@@ -114,7 +116,7 @@ struct HomeView: View {
                 // 15ポイントの余白を水平方向に付与
                 .padding(.horizontal, 15)
                 // どちらのターンかを知らせるメッセージ
-                Text(homeViewModel.currentUser.whoseTurnMessage)
+                Text(homeViewModel.currentPlayer.whoseTurnMessage)
                     .padding()
                     .font(.title)
             }
@@ -126,7 +128,7 @@ struct HomeView: View {
         // アラートを表示する
         .alert(isPresented: $homeViewModel.showAlert, content: {
             Alert(title: Text("勝者"),
-                  message: Text(homeViewModel.currentUser.alertMessage),
+                  message: Text(homeViewModel.currentPlayer.alertMessage),
                   dismissButton: .destructive(Text("もう一度！"),
                                               action: {
                                                 // アニメーションを利用する
