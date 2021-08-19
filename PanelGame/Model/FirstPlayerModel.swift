@@ -19,7 +19,7 @@ enum FirstPlayerModel {
         case .grandMa:
             return "先手：おばあちゃん"
         default:
-            return "　"
+            return "先手プレイヤーをタップだ！"
         }
     }
 }
