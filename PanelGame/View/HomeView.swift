@@ -21,7 +21,7 @@ struct HomeView: View {
                 HStack{
                     VStack{
                         // おじいちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.fixedFirstPlayer && homeViewModel.isGrandpa ? "▼" : "　")
+                        Text(homeViewModel.fixedFirstPlayer && homeViewModel.currentUser == .grandPa ? "▼" : "　")
                             .font(.title)
                         // おじいちゃんボタン
                         Button(action: {
@@ -29,7 +29,7 @@ struct HomeView: View {
                                 return
                             }
                             homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandPa.message
-                            homeViewModel.isGrandpa = true
+                            homeViewModel.currentUser = .grandPa
                         }) {
                             Image("ojiichan")
                                 .resizable()
@@ -45,7 +45,7 @@ struct HomeView: View {
                     
                     VStack{
                         // おばあちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.fixedFirstPlayer && (homeViewModel.isGrandpa == false) ? "▼" : " ")
+                        Text(homeViewModel.fixedFirstPlayer && homeViewModel.currentUser == .grandMa ? "▼" : " ")
                             .font(.title)
                         // おばあちゃんボタン
                         Button(action: {
@@ -53,7 +53,7 @@ struct HomeView: View {
                                 return
                             }
                             homeViewModel.firstPlayerMessage = FirstPlayerMessageModel.grandMa.message
-                            homeViewModel.isGrandpa = false
+                            homeViewModel.currentUser = .grandMa
                         }) {
                             Image("obaachan")
                                 .resizable()
@@ -91,13 +91,14 @@ struct HomeView: View {
                             }
                             // 最初にパネルがタップされたときに先手を確定させる
                             if homeViewModel.fixedFirstPlayer == false {
-                                homeViewModel.firstPlayerMessage = homeViewModel.isGrandpa ? FirstPlayerMessageModel.grandPa.message : FirstPlayerMessageModel.grandMa.message
+                                homeViewModel.currentUser = .grandPa
+                                homeViewModel.firstPlayerMessage = homeViewModel.currentUser == .grandPa ? FirstPlayerMessageModel.grandPa.message : FirstPlayerMessageModel.grandMa.message
                                 homeViewModel.fixedFirstPlayer = true
                             }
                             // アニメーションを利用する
                             withAnimation(){
                                 // パネルのプレイヤーを格納
-                                homeViewModel.panels[panelNumber] = homeViewModel.isGrandpa ? PanelStateModel.grandPa : PanelStateModel.grandMa
+                                homeViewModel.panels[panelNumber] = homeViewModel.currentUser == .grandPa ? PanelStateModel.grandPa : PanelStateModel.grandMa
                             }
                             // 勝敗を判定する
                             homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber].toString())
@@ -113,7 +114,7 @@ struct HomeView: View {
                 // 15ポイントの余白を水平方向に付与
                 .padding(.horizontal, 15)
                 // どちらのターンかを知らせるメッセージ
-                Text(homeViewModel.turnMessage)
+                Text(homeViewModel.currentUser.whoseTurnMessage)
                     .padding()
                     .font(.title)
             }
@@ -125,7 +126,7 @@ struct HomeView: View {
         // アラートを表示する
         .alert(isPresented: $homeViewModel.showAlert, content: {
             Alert(title: Text("勝者"),
-                  message: Text(homeViewModel.alertMessage),
+                  message: Text(homeViewModel.currentUser.alertMessage),
                   dismissButton: .destructive(Text("もう一度！"),
                                               action: {
                                                 // アニメーションを利用する

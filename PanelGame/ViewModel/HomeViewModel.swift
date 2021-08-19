@@ -10,36 +10,29 @@ import Foundation
 class HomeViewModel: ObservableObject {
     // パネルの状態を配列で管理
     @Published var panels: [PanelStateModel] = Array(repeating: PanelStateModel.none, count: 16)
-    // おじいちゃんなのかおばあちゃんなのかを管理
-    @Published var isGrandpa = true
+    // 現在の差し手を管理
+    @Published var currentUser = CurrentTurnUserModel.none
     // アラートを表示するか管理
     @Published var showAlert = false
-    // アラートメッセージ
-    @Published var alertMessage = AlertMessageModel.none.message
     // 先手プレイヤーを表示するメッセージ
     @Published var firstPlayerMessage = FirstPlayerMessageModel.none.message
     // 先手プレイヤーが確定したかを管理
     @Published var fixedFirstPlayer = false
-    // どちらのターンかを知らせるメッセージ
-    @Published var turnMessage = ""
     
     // 勝敗を判定する
     func judgeGame(player: String){
         //　勝利条件を満たしていた場合の処理
         if hasWon(player: player) {
-            alertMessage = isGrandpa ? AlertMessageModel.winGrandPa.message : AlertMessageModel.winGrandMa.message
             showAlert = true
         }
         // 引き分け時の処理
         else if panels.contains(PanelStateModel.none) == false {
-            alertMessage = AlertMessageModel.draw.message
+            currentUser = .none
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
         } else{
             // プレイヤーを切り替える
-            isGrandpa.toggle()
-            // メッセージをセット
-            turnMessage = isGrandpa ? "おじいちゃんのターン！" : "おばあちゃんのターン！"
+            currentUser.togglePlayer()
         }
     }
     
@@ -101,9 +94,8 @@ class HomeViewModel: ObservableObject {
     // gameを初期状態に戻す
     func gameSet(){
         panels = Array(repeating: PanelStateModel.none, count: 16)
-        isGrandpa = true
         firstPlayerMessage = FirstPlayerMessageModel.none.message
         fixedFirstPlayer = false
-        turnMessage = ""
+        currentUser = .none
     }
 }
