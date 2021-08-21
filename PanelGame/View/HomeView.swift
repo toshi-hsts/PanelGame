@@ -20,13 +20,13 @@ struct HomeView: View {
             VStack{
                 HStack{
                     // おじいちゃんView
-                    PlayerImage(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandPa)
+                    PlayerImageView(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandPa)
                     // VSテキストを表示
                     Text("VS")
                         .font(.largeTitle)
                         .padding(.horizontal,10)
                     // おばあちゃんView
-                    PlayerImage(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandMa)
+                    PlayerImageView(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandMa)
                 }
                 // 先手をテキストで表示する
                 Text(homeViewModel.firstPlayer.message)
@@ -106,43 +106,6 @@ struct HomeView: View {
                   )
             )
         })
-    }
-}
-
-// プレイヤーView
-struct PlayerImage: View {
-    @ObservedObject var homeViewModel: HomeViewModel
-    let gridLength: CGFloat
-    let player: CurrentPlayerModel
-    
-    var body: some View {
-        VStack{
-            Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == player ? "▼" : " ")
-                .font(.title)
-            Button(action: {
-                guard homeViewModel.isStartingGame == false else {
-                    return
-                }
-                homeViewModel.firstPlayer = player == .grandPa ? .grandPa : .grandMa
-            }) {
-                Image(player.toString())
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: gridLength * 1.5, height: gridLength * 1.5)
-                    .padding(.horizontal, 10)
-            }
-        }
-    }
-}
-
-//　RoundedRectangleのモディファイア拡張
-extension RoundedRectangle {
-    // 背景色をpanelよって変更する
-    func changePanelColor(_ panelState: PanelStateModel) -> some View {
-        var fillColor = self.fill(Color.white)
-        if panelState == .grandPa{ fillColor =  self.fill(Color.blue) }
-        if panelState == .grandMa{ fillColor = self.fill(Color.orange) }
-        return fillColor
     }
 }
 
