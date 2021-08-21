@@ -19,47 +19,14 @@ struct HomeView: View {
         NavigationView{
             VStack{
                 HStack{
-                    VStack{
-                        // おじいちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == .grandPa ? "▼" : "　")
-                            .font(.title)
-                        // おじいちゃんボタン
-                        Button(action: {
-                            guard homeViewModel.isStartingGame == false else {
-                                return
-                            }
-                            homeViewModel.firstPlayer = .grandPa
-                        }) {
-                            Image("ojiichan")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: gridLength * 1.5, height: gridLength * 1.5)
-                                .padding(.horizontal, 10)
-                        }
-                    }
+                    // おじいちゃんView
+                    PlayerImage(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandPa)
                     // VSテキストを表示
                     Text("VS")
                         .font(.largeTitle)
                         .padding(.horizontal,10)
-                    
-                    VStack{
-                        // おばあちゃんのターンが分かるよう「▼」を付与
-                        Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == .grandMa ? "▼" : " ")
-                            .font(.title)
-                        // おばあちゃんボタン
-                        Button(action: {
-                            guard homeViewModel.isStartingGame == false else {
-                                return
-                            }
-                            homeViewModel.firstPlayer = .grandMa
-                        }) {
-                            Image("obaachan")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: gridLength * 1.5, height: gridLength * 1.5)
-                                .padding(.horizontal, 10)
-                        }
-                    }
+                    // おばあちゃんView
+                    PlayerImage(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandMa)
                 }
                 // 先手をテキストで表示する
                 Text(homeViewModel.firstPlayer.message)
@@ -139,6 +106,32 @@ struct HomeView: View {
                   )
             )
         })
+    }
+}
+
+// プレイヤーView
+struct PlayerImage: View {
+    @ObservedObject var homeViewModel: HomeViewModel
+    let gridLength: CGFloat
+    let player: CurrentPlayerModel
+    
+    var body: some View {
+        VStack{
+            Text(homeViewModel.isStartingGame && homeViewModel.currentPlayer == player ? "▼" : " ")
+                .font(.title)
+            Button(action: {
+                guard homeViewModel.isStartingGame == false else {
+                    return
+                }
+                homeViewModel.firstPlayer = player == .grandPa ? .grandPa : .grandMa
+            }) {
+                Image(player.toString())
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: gridLength * 1.5, height: gridLength * 1.5)
+                    .padding(.horizontal, 10)
+            }
+        }
     }
 }
 

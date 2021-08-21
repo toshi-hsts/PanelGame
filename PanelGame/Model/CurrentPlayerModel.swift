@@ -47,4 +47,16 @@ enum CurrentPlayerModel {
             self = .none
         }
     }
+    
+    // 文字列に変換する
+    func toString() -> String {
+        switch self {
+        case .grandPa:
+            return "ojiichan"
+        case .grandMa:
+            return "obaachan"
+        default:
+            return ""
+        }
+    }
 }
