@@ -37,7 +37,7 @@ struct HomeView: View {
                             // 角丸の四角形を描画する
                             RoundedRectangle(cornerRadius: 10)
                                 // パネルの色
-                                .changePanelColor(homeViewModel.panels[panelNumber].toString())
+                                .changePanelColor(homeViewModel.panels[panelNumber])
                                 // gridの高さ
                                 .frame(height: gridLength)
                             // パネルに割り当てられたプレイヤーがいる場合、パネルの上に画像を表示する
@@ -138,10 +138,10 @@ struct PlayerImage: View {
 //　RoundedRectangleのモディファイア拡張
 extension RoundedRectangle {
     // 背景色をpanelよって変更する
-    func changePanelColor(_ panelContent: String) -> some View {
+    func changePanelColor(_ panelState: PanelStateModel) -> some View {
         var fillColor = self.fill(Color.white)
-        if panelContent == "ojiichan"{ fillColor =  self.fill(Color.blue) }
-        if panelContent == "obaachan"{ fillColor = self.fill(Color.orange) }
+        if panelState == .grandPa{ fillColor =  self.fill(Color.blue) }
+        if panelState == .grandMa{ fillColor = self.fill(Color.orange) }
         return fillColor
     }
 }
