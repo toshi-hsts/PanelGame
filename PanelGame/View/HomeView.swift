@@ -13,7 +13,7 @@ struct HomeView: View {
     //  パネルの数、レイアウト設定
     private let columns: [GridItem] = Array(repeating: .init(.flexible(), spacing: 15), count: 4)
     // HomeViewModelをインスタンス化
-    @ObservedObject var homeViewModel = HomeViewModel()
+    @StateObject private var homeViewModel = HomeViewModel()
     
     var body: some View {
         NavigationView{
