@@ -70,7 +70,7 @@ struct HomeView: View {
                                 homeViewModel.panels[panelNumber] = homeViewModel.currentPlayer == .grandPa ? PanelStateModel.grandPa : PanelStateModel.grandMa
                             }
                             // 勝敗を判定する
-                            homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber].toString())
+                            homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber])
                         }
                         // パネルをめくるアニメーション設定
                         .rotation3DEffect(
