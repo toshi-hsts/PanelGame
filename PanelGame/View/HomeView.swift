@@ -29,7 +29,7 @@ struct HomeView: View {
                     PlayerImageView(homeViewModel: homeViewModel, gridLength: gridLength, player: .grandMa)
                 }
                 // 先手をテキストで表示する
-                Text(homeViewModel.firstPlayer.message)
+                Text(homeViewModel.firstPlayer.firstTurnMessage)
                 
                 LazyVGrid(columns: columns, alignment: .center, spacing: 15) {
                     ForEach((0...15), id: \.self) { panelNumber in
@@ -56,18 +56,15 @@ struct HomeView: View {
                             }
                             // 最初にパネルがタップされたときにゲームを開始する
                             if homeViewModel.isStartingGame == false {
-                                homeViewModel.currentPlayer = homeViewModel.firstPlayer == .grandMa ? .grandMa : .grandPa
-                                // 先手を選ばずにゲームを開始した場合は、おじいちゃんが先手になる
-                                if homeViewModel.firstPlayer == .none {
-                                    homeViewModel.firstPlayer = .grandPa
-                                }
+                                // ゲーム開始時の現在のプレイヤーを先手プレイヤーとする
+                                homeViewModel.firstPlayer = homeViewModel.currentPlayer
                                 // ゲームを開始中にする
                                 homeViewModel.isStartingGame = true
                             }
                             // アニメーションを利用する
                             withAnimation(){
                                 // パネルのプレイヤーを格納
-                                homeViewModel.panels[panelNumber] = homeViewModel.currentPlayer == .grandPa ? PanelStateModel.grandPa : PanelStateModel.grandMa
+                                homeViewModel.panels[panelNumber] = homeViewModel.currentPlayer
                             }
                             // 勝敗を判定する
                             homeViewModel.judgeGame(player: homeViewModel.panels[panelNumber])

@@ -9,24 +9,24 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     // パネルの状態を配列で管理
-    @Published var panels: [PanelStateModel] = Array(repeating: PanelStateModel.none, count: 16)
+    @Published var panels: [PlayerModel] = Array(repeating: PlayerModel.none, count: 16)
     // 現在の差し手を管理
-    @Published var currentPlayer = CurrentPlayerModel.none
+    @Published var currentPlayer = PlayerModel.grandPa
     // 先手プレイヤー管理
-    @Published var firstPlayer = FirstPlayerModel.none
+    @Published var firstPlayer = PlayerModel.none
     // アラートを表示するか管理
     @Published var showAlert = false
     // ゲーム中かを管理
     @Published var isStartingGame = false
     
     // 勝敗を判定する
-    func judgeGame(player: PanelStateModel){
+    func judgeGame(player: PlayerModel){
         //　勝利条件を満たしていた場合の処理
         if hasWon(player) {
             showAlert = true
         }
         // 引き分け時の処理
-        else if panels.contains(PanelStateModel.none) == false {
+        else if panels.contains(PlayerModel.none) == false {
             currentPlayer = .none
             showAlert = true
             // 引き分けでも勝利でもない場合の処理
@@ -37,7 +37,7 @@ class HomeViewModel: ObservableObject {
     }
     
     // 勝利条件が確定しているのかチェックする
-    func hasWon(_ player: PanelStateModel) -> Bool {
+    func hasWon(_ player: PlayerModel) -> Bool {
         // 勝利判定管理用に利用する
         var canWin = false
         
@@ -93,9 +93,9 @@ class HomeViewModel: ObservableObject {
     
     // gameを初期状態に戻す
     func gameSet(){
-        panels = Array(repeating: PanelStateModel.none, count: 16)
+        panels = Array(repeating: PlayerModel.none, count: 16)
         firstPlayer = .none
-        currentPlayer = .none
+        currentPlayer = .grandPa
         isStartingGame = false
     }
 }

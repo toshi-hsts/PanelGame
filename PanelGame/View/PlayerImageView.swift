@@ -11,7 +11,7 @@ import SwiftUI
 struct PlayerImageView: View {
     @ObservedObject var homeViewModel: HomeViewModel
     let gridLength: CGFloat
-    let player: CurrentPlayerModel
+    let player: PlayerModel
     
     var body: some View {
         VStack{
@@ -21,7 +21,7 @@ struct PlayerImageView: View {
                 guard homeViewModel.isStartingGame == false else {
                     return
                 }
-                homeViewModel.firstPlayer = player == .grandPa ? .grandPa : .grandMa
+                homeViewModel.currentPlayer = player
             }) {
                 Image(player.toString())
                     .resizable()

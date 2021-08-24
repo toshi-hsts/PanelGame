@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CurrentPlayerModel {
+enum PlayerModel {
     case grandPa
     case grandMa
     case none
@@ -57,6 +57,18 @@ enum CurrentPlayerModel {
             return "obaachan"
         default:
             return ""
+        }
+    }
+    
+    // 先手をお知らせするメッセージ
+    var firstTurnMessage: String {
+        switch self {
+        case .grandPa:
+            return "先手：おじいちゃん"
+        case .grandMa:
+            return "先手：おばあちゃん"
+        default:
+            return "先手プレイヤーをタップだ！"
         }
     }
 }
