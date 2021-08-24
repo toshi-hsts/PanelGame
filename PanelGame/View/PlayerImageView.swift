@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 struct PlayerImageView: View {
-    @ObservedObject var homeViewModel: HomeViewModel
+    @StateObject var homeViewModel: HomeViewModel
     let gridLength: CGFloat
     let player: PlayerModel
     
