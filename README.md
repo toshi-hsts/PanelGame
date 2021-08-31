@@ -41,7 +41,7 @@ open PanelGame.xcodeproj
 - iPhone実機 iOS14.5
 
 # 作成者
-https://twitter.com/Toshi_tab0401
+https://twitter.com/Toshi_hsts
 
 # ライセンス
 "PanelGame" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
